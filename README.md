@@ -1,0 +1,1 @@
+# symfony-nginx-php8
