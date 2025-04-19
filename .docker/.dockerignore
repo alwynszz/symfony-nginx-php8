@@ -1,0 +1,51 @@
+# Системные файлы и директории
+.git/
+.gitignore
+.idea/
+.vscode/
+.DS_Store
+*.swp
+*.swo
+
+# Логи и временные файлы
+*.log
+*.cache
+tmp/
+var/
+cache/
+docker-compose.override.yml
+
+# Зависимости и билд-артефакты
+vendor/
+node_modules/
+composer.lock
+package-lock.json
+yarn.lock
+/public/bundles/
+/public/build/
+
+# Файлы окружения
+.env
+.env.local
+.env.*.local
+
+# Документация и тесты
+README.md
+CHANGELOG.md
+LICENSE
+tests/
+phpunit.xml
+
+# Docker-специфичные файлы
+docker-compose.yml
+Dockerfile
+.dockerignore
+
+# IDE метаданные
+.project
+.settings/
+.buildpath
+
+# Frontend-артефакты (если используется)
+/assets/
+/webpack.config.js
