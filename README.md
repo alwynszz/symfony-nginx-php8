@@ -38,8 +38,8 @@
 
 1. **Клонируйте репозиторий**:
     ```bash
-    git clone https://github.com/csitrovsky/symfony-nginx-php8-stack.git
-    cd symfony-nginx-php8-stack
+    git clone https://github.com/csitrovsky/symfony-nginx-php8.git
+    cd symfony-nginx-php8
     ```
 
 2. **Настройте окружение**:
